@@ -13,4 +13,12 @@ app.get("/*", function (req, res){
 	res.redirect('/');
 });
 
+io.sockets.on('connection', function(socket){
+
+	socket.on('addTask', function(object){
+		console.log(object);
+		socket.broadcast.emit('add', object);
+	});
+});
+
 console.log("listening 3000")

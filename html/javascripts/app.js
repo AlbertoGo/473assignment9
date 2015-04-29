@@ -6,6 +6,14 @@ var main = function () {
                  "Take Gracie to the park",
                  "Finish writing this book"];
 
+    var socket = io.connect("http://localhost:3000");
+
+    socket.on('add', function(task){
+        console.log(task);
+        toDos.push(task);
+        //TODO: Update page without refreshing.
+    });
+
     $(".tabs a span").toArray().forEach(function (element) {
         var $element = $(element);
 
@@ -41,6 +49,7 @@ var main = function () {
                 $button.on("click", function () {
                     if ($input.val() !== "") {
                         toDos.push($input.val());
+                        socket.emit('addTask', $input.val());
                         $input.val("");
                     }
                 });
